@@ -76,12 +76,22 @@
     background: linear-gradient(to bottom, rgba(7,31,24,.85) 0%, rgba(7,31,24,0) 100%);
   }
   .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1rem;
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--ivoire);
+  }
+  .nav-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(201,161,90,.55);
   }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
@@ -493,7 +503,7 @@
 <div class="grain"></div>
 
 <nav class="nav">
-  <a href="#" class="nav-brand">Mouima</a>
+  <a href="#" class="nav-brand"><img class="nav-logo" src="assets/logo.png" alt="La Cuisine de Mouima">Mouima</a>
   <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
