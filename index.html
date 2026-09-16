@@ -86,13 +86,6 @@
     text-transform: uppercase;
     color: var(--ivoire);
   }
-  .nav-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid rgba(201,161,90,.55);
-  }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
     font-size: .72rem;
@@ -158,28 +151,29 @@
   .hero-frame > i::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; position: absolute; }
 
   .monogram {
-    width: 108px;
-    height: 108px;
+    width: min(190px, 44vw);
+    aspect-ratio: 1;
     margin: 0 auto 2.2rem;
     border-radius: 50%;
-    border: 1px solid rgba(201,161,90,.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 7px;
+    background: conic-gradient(from 0deg, var(--or), var(--or-doux), var(--paprika), var(--or-doux), var(--or));
     position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,.5);
   }
   .monogram::before {
     content: '';
     position: absolute;
-    inset: 7px;
-    border: 1px solid rgba(201,161,90,.3);
+    inset: -11px;
+    border: 1px solid rgba(201,161,90,.35);
     border-radius: 50%;
   }
-  .monogram span {
-    font-family: var(--font-display);
-    font-size: 2.6rem;
-    font-weight: 700;
-    color: var(--or-doux);
+  .monogram img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--emeraude-deep);
+    display: block;
   }
 
   .hero-kicker {
@@ -503,7 +497,7 @@
 <div class="grain"></div>
 
 <nav class="nav">
-  <a href="#" class="nav-brand"><img class="nav-logo" src="assets/logo.png" alt="La Cuisine de Mouima">Mouima</a>
+  <a href="#" class="nav-brand">Mouima</a>
   <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -518,7 +512,7 @@
 
 <header class="hero motif-etoiles">
   <div class="hero-frame"><i></i></div>
-  <div class="monogram"><span>M</span></div>
+  <div class="monogram"><img src="assets/logo.png" alt="La Cuisine de Mouima"></div>
   <p class="hero-kicker">Comme à la maison</p>
   <h1>La Cuisine de Mouima</h1>
   <p class="hero-sub">Traiteur marocain à domicile — plats mijotés, pâtisseries et pastillas préparés avec soin, servis chez vous à l'occasion de vos réceptions.</p>
