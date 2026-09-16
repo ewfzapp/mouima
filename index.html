@@ -1,0 +1,741 @@
+<title>La Cuisine de Mouima</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --emeraude: #0d3327;
+    --emeraude-deep: #071f18;
+    --emeraude-soft: #164435;
+    --or: #c9a15a;
+    --or-doux: #e3c88a;
+    --paprika: #a5402c;
+    --ivoire: #f5ecda;
+    --ivoire-mate: #ece0c6;
+    --encre: #211a10;
+    --font-display: 'Amiri', 'Noto Naskh Arabic', Georgia, serif;
+    --font-accent: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Jost', 'Helvetica Neue', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; background: var(--emeraude-deep); }
+
+  body {
+    background: var(--ivoire);
+    color: var(--encre);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    opacity: .05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .motif-etoiles {
+    background-image:
+      repeating-conic-gradient(from 45deg, rgba(201,161,90,.06) 0deg 20deg, transparent 20deg 90deg);
+    background-size: 46px 46px;
+  }
+
+  .filet {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,161,90,.6), transparent);
+  }
+  .filet-double {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 64px;
+  }
+  .filet-double span:first-child { height: 1px; background: rgba(201,161,90,.75); }
+  .filet-double span:last-child { height: 1px; background: rgba(201,161,90,.35); }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 6vw;
+    background: linear-gradient(to bottom, rgba(7,31,24,.85) 0%, rgba(7,31,24,0) 100%);
+  }
+  .nav-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ivoire);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(245,236,218,.8);
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--or-doux); }
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: .4rem;
+  }
+  .nav-toggle span { width: 22px; height: 1.5px; background: var(--ivoire); display: block; transition: transform .25s, opacity .25s; }
+  @media (max-width: 820px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: fixed; inset: 0; z-index: 99;
+      background: var(--emeraude-deep);
+      flex-direction: column; align-items: center; justify-content: center; gap: 2.2rem;
+      opacity: 0; transform: translateY(-8px); pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .nav-links.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .nav-links a { font-size: 1rem; }
+    .nav-toggle.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    background: radial-gradient(ellipse 90% 70% at 50% -10%, var(--emeraude-soft) 0%, var(--emeraude) 45%, var(--emeraude-deep) 100%);
+    color: var(--ivoire);
+    padding: 8.5rem 6vw 6rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-frame {
+    position: absolute;
+    inset: 22px;
+    border: 1px solid rgba(201,161,90,.28);
+    pointer-events: none;
+  }
+  .hero-frame::before, .hero-frame::after,
+  .hero-frame > i::before, .hero-frame > i::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 1px solid var(--or-doux);
+  }
+  .hero-frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .hero-frame::after { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+  .hero-frame > i::before { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; position: absolute; }
+  .hero-frame > i::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; position: absolute; }
+
+  .monogram {
+    width: 108px;
+    height: 108px;
+    margin: 0 auto 2.2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(201,161,90,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .monogram::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(201,161,90,.3);
+    border-radius: 50%;
+  }
+  .monogram span {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--or-doux);
+  }
+
+  .hero-kicker {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+    color: var(--or-doux);
+    margin-bottom: .6rem;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.3rem, 6.4vw, 4.4rem);
+    letter-spacing: .01em;
+    line-height: 1.08;
+    text-wrap: balance;
+    color: var(--ivoire);
+  }
+
+  .hero-sub {
+    margin: 1.4rem auto 0;
+    max-width: 46ch;
+    font-size: 1rem;
+    color: rgba(245,236,218,.8);
+  }
+
+  .zones {
+    display: flex;
+    justify-content: center;
+    gap: .9rem;
+    flex-wrap: wrap;
+    margin-top: 2.2rem;
+  }
+  .zone-badge {
+    display: flex;
+    align-items: baseline;
+    gap: .45rem;
+    border: 1px solid rgba(201,161,90,.45);
+    border-radius: 2px;
+    padding: .55rem 1.1rem;
+  }
+  .zone-badge b {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--or-doux);
+  }
+  .zone-badge span {
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(245,236,218,.7);
+  }
+
+  .hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.6rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .9rem 2rem;
+    font-family: var(--font-body);
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all .25s ease;
+  }
+  .btn-or {
+    background: var(--or);
+    color: var(--emeraude-deep);
+  }
+  .btn-or:hover { background: var(--or-doux); }
+  .btn-ligne {
+    border: 1px solid rgba(245,236,218,.4);
+    color: var(--ivoire);
+  }
+  .btn-ligne:hover { border-color: var(--or-doux); color: var(--or-doux); }
+
+  /* arche : transition hero -> contenu */
+  .arche {
+    display: block;
+    width: 100%;
+    height: 34px;
+    margin-top: -1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section { padding: 5.5rem 6vw; max-width: 980px; margin: 0 auto; }
+  .section-tight { max-width: 760px; }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--paprika);
+    margin-bottom: 1.1rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--paprika);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.15;
+    color: var(--emeraude);
+    text-wrap: balance;
+  }
+
+  .intro-texte {
+    text-align: center;
+  }
+  .intro-texte p {
+    max-width: 60ch;
+    margin: 1.4rem auto 0;
+    font-size: 1.06rem;
+    color: #4a4030;
+  }
+  .signature {
+    margin-top: 1.8rem;
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--emeraude);
+  }
+
+  /* ===== SPECIALITES / CARTE ===== */
+  .specialites-bg { background: var(--emeraude-deep); color: var(--ivoire); text-align: center; }
+  .specialites-bg h2 { color: var(--ivoire); }
+  .specialites-bg .eyebrow { color: var(--or-doux); justify-content: center; }
+  .specialites-bg .eyebrow::before { background: var(--or-doux); }
+  .specialites-intro { max-width: 52ch; margin: 1rem auto 0; color: rgba(245,236,218,.65); font-size: .96rem; }
+
+  .carte-panel {
+    background: var(--ivoire);
+    color: var(--encre);
+    text-align: left;
+    max-width: 940px;
+    margin: 3rem auto 0;
+    padding: clamp(2rem, 5vw, 3.4rem) clamp(1.4rem, 5vw, 3.2rem);
+    border: 1px solid rgba(201,161,90,.5);
+    box-shadow: 0 40px 100px rgba(0,0,0,.5);
+  }
+  .carte-entete {
+    text-align: center;
+    margin-bottom: 2.2rem;
+  }
+  .carte-entete .filet-double { margin: 0 auto .9rem; }
+  .carte-entete h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--emeraude);
+  }
+  .carte-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 3rem;
+  }
+  .carte-groupe + .carte-groupe { margin-top: 2.2rem; }
+  .carte-groupe-titre {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.12rem;
+    color: var(--emeraude);
+    padding-bottom: .35rem;
+    border-bottom: 1px solid rgba(165,64,44,.35);
+  }
+  .carte-groupe-note {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--paprika);
+    white-space: nowrap;
+  }
+  .carte-ligne {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    padding: .6rem 0;
+    border-bottom: 1px dotted rgba(33,26,16,.16);
+  }
+  .carte-ligne:last-child { border-bottom: none; }
+  .carte-nom { font-size: .93rem; font-weight: 500; }
+  .carte-nom small { display: block; margin-top: .1rem; font-size: .75rem; font-weight: 400; color: #7a6d54; }
+  .carte-leader { flex: 1; border-bottom: 1px dotted rgba(33,26,16,.28); transform: translateY(-5px); min-width: 12px; }
+  .carte-prix { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--paprika); font-size: .93rem; white-space: nowrap; }
+  .carte-supplement {
+    margin-top: .7rem;
+    font-size: .78rem;
+    font-style: italic;
+    color: #8a7c60;
+  }
+  .carte-note {
+    text-align: center;
+    margin-top: 2.6rem;
+    font-size: .86rem;
+    color: rgba(245,236,218,.6);
+  }
+  .carte-note a { color: var(--or-doux); border-bottom: 1px solid rgba(227,200,138,.4); }
+
+  @media (max-width: 720px) {
+    .carte-cols { grid-template-columns: 1fr; gap: 0; }
+  }
+
+  /* ===== ZONE ===== */
+  .zone-bg { background: var(--ivoire-mate); }
+  .zone-liste {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2.6rem;
+    text-align: center;
+  }
+  .dept {
+    padding: 2rem 1rem;
+  }
+  .dept .chiffre {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.6rem;
+    color: var(--paprika);
+  }
+  .dept .nom {
+    margin-top: .3rem;
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--emeraude);
+  }
+
+  /* ===== OCCASIONS ===== */
+  .occasions-liste {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.2rem;
+    margin-top: 2.6rem;
+  }
+  .occasion h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--emeraude);
+  }
+  .occasion p {
+    margin-top: .5rem;
+    font-size: .88rem;
+    color: #5a4f3c;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-bg {
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--emeraude-soft) 0%, var(--emeraude-deep) 60%);
+    color: var(--ivoire);
+    text-align: center;
+  }
+  .contact-bg .eyebrow { color: var(--or-doux); justify-content: center; }
+  .contact-bg .eyebrow::before { background: var(--or-doux); }
+  .contact-bg h2 { color: var(--ivoire); }
+  .contact-bg > p { max-width: 48ch; margin: 1.2rem auto 0; color: rgba(245,236,218,.75); }
+
+  .contact-liens {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.6rem;
+  }
+  .contact-lien {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: 1rem 1.6rem;
+    border: 1px solid rgba(201,161,90,.4);
+    border-radius: 2px;
+    font-size: .88rem;
+    transition: border-color .2s, background .2s;
+  }
+  .contact-lien:hover { border-color: var(--or-doux); background: rgba(201,161,90,.08); }
+  .contact-lien .ic { color: var(--or-doux); font-size: 1.05rem; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--emeraude-deep);
+    color: rgba(245,236,218,.5);
+    text-align: center;
+    padding: 2.6rem 1.5rem;
+    font-size: .78rem;
+    letter-spacing: .04em;
+    border-top: 1px solid rgba(245,236,218,.08);
+  }
+  footer strong { color: var(--or-doux); font-family: var(--font-accent); font-style: italic; font-weight: 600; }
+
+  @media (max-width: 600px) {
+    .section { padding: 4rem 6vw; }
+    .carte-groupe-titre { flex-direction: column; align-items: flex-start; gap: .2rem; }
+  }
+</style>
+
+<div class="grain"></div>
+
+<nav class="nav">
+  <a href="#" class="nav-brand">Mouima</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#">Accueil</a></li>
+    <li><a href="#specialites">Spécialités</a></li>
+    <li><a href="#zone">Zone d'intervention</a></li>
+    <li><a href="#occasions">Occasions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero motif-etoiles">
+  <div class="hero-frame"><i></i></div>
+  <div class="monogram"><span>M</span></div>
+  <p class="hero-kicker">Comme à la maison</p>
+  <h1>La Cuisine de Mouima</h1>
+  <p class="hero-sub">Traiteur marocain à domicile — plats mijotés, pâtisseries et pastillas préparés avec soin, servis chez vous à l'occasion de vos réceptions.</p>
+  <div class="zones">
+    <div class="zone-badge"><b>73</b><span>Savoie</span></div>
+    <div class="zone-badge"><b>74</b><span>Haute-Savoie</span></div>
+    <div class="zone-badge"><b>38</b><span>Isère</span></div>
+  </div>
+  <div class="hero-cta">
+    <a href="tel:0617110282" class="btn btn-or">Appeler — 06 17 11 02 82</a>
+    <a href="https://instagram.com/lacuisinedemouima" target="_blank" class="btn btn-ligne">Suivre sur Instagram</a>
+  </div>
+</header>
+
+<svg class="arche" viewBox="0 0 200 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="archMotif" width="40" height="24" patternUnits="userSpaceOnUse">
+      <path d="M0 24 V14 A20 20 0 0 1 40 14 V24 Z" fill="var(--ivoire)"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="24" fill="url(#archMotif)"/>
+</svg>
+
+<section class="section intro-texte">
+  <div class="eyebrow" style="justify-content:center;">Notre histoire</div>
+  <h2>Une cuisine transmise, pas improvisée</h2>
+  <p>Mouima cuisine comme on lui a appris : à l'œil, au temps long, avec les épices qu'il faut et pas une de plus. Chaque tajine mijote des heures, chaque pastilla se plie à la main. Rien n'est produit à l'avance — tout est préparé pour votre date, en petite quantité, comme pour la famille.</p>
+  <p class="signature">« On ne sert pas un plat, on partage un repas. »</p>
+</section>
+
+<section class="section specialites-bg" id="specialites">
+  <div class="eyebrow">La carte</div>
+  <h2>Ce que Mouima cuisine pour vous</h2>
+  <p class="specialites-intro">Chaque plat est préparé à la commande, en quantité adaptée à votre réception. Tarifs indicatifs, hors livraison.</p>
+
+  <div class="carte-panel">
+    <div class="carte-entete">
+      <div class="filet-double"><span></span><span></span></div>
+      <h3>La Carte</h3>
+    </div>
+
+    <div class="carte-cols">
+      <div class="carte-col">
+
+        <div class="carte-groupe">
+          <div class="carte-groupe-titre">Entrées &amp; buffet<span class="carte-groupe-note">min. 10 pièces</span></div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Bricks<small>Poulet-légumes ou viande hachée-pomme de terre</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">2,50&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Batbout<small>Petits pains garnis — poulet à l'indienne ou thon-salade-olives-oignons</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">2&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Mini msemmen nature</span>
+            <span class="carte-leader"></span><span class="carte-prix">2&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Mini msemmen farci</span>
+            <span class="carte-leader"></span><span class="carte-prix">3&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Mini pizza thon</span>
+            <span class="carte-leader"></span><span class="carte-prix">2&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Baghrir<small>Crêpe mille trous</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">1,50&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Mini pastilla poulet</span>
+            <span class="carte-leader"></span><span class="carte-prix">6&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Mini pastilla fruits de mer</span>
+            <span class="carte-leader"></span><span class="carte-prix">8&nbsp;€</span>
+          </div>
+        </div>
+
+        <div class="carte-groupe">
+          <div class="carte-groupe-titre">Couscous<span class="carte-groupe-note">min. 5 portions</span></div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Bœuf<small>la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">18&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Poulet<small>la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">14&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Agneau<small>la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">16&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Royal<small>Poulet, bœuf, merguez — la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">20&nbsp;€</span>
+          </div>
+          <p class="carte-supplement">Supplément oignons caramélisés &amp; raisins secs : 2&nbsp;€ / portion</p>
+        </div>
+
+      </div>
+
+      <div class="carte-col">
+
+        <div class="carte-groupe">
+          <div class="carte-groupe-titre">Tajines<span class="carte-groupe-note">min. 5 pers.</span></div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Bœuf<small>Sucré ou salé — la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">16&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Boulettes<small>Viande hachée, œuf — la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">13&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Agneau<small>Sucré ou salé — la part</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">18&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Cuisses de poulet<small>Olives &amp; citrons confits — la pièce</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">6&nbsp;€</span>
+          </div>
+        </div>
+
+        <div class="carte-groupe">
+          <div class="carte-groupe-titre">Desserts — Tiramisu<span class="carte-groupe-note">min. 10 pièces / saveur</span></div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Choco &amp; noisette</span>
+            <span class="carte-leader"></span><span class="carte-prix">3&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Pistache</span>
+            <span class="carte-leader"></span><span class="carte-prix">3&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Caramel &amp; spéculoos</span>
+            <span class="carte-leader"></span><span class="carte-prix">3&nbsp;€</span>
+          </div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Citron</span>
+            <span class="carte-leader"></span><span class="carte-prix">3&nbsp;€</span>
+          </div>
+        </div>
+
+        <div class="carte-groupe">
+          <div class="carte-groupe-titre">Snacks</div>
+          <div class="carte-ligne">
+            <span class="carte-nom">Energy balls<small>Sachet de 150 g</small></span>
+            <span class="carte-leader"></span><span class="carte-prix">8&nbsp;€</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <p class="carte-note">Menus sur mesure et grandes quantités — <a href="mailto:lacuisinedemouima@gmail.com">écrire à Mouima</a>.</p>
+</section>
+
+<section class="section zone-bg" id="zone">
+  <div class="eyebrow">Zone d'intervention</div>
+  <h2>Elle cuisine, vous recevez</h2>
+  <p style="margin-top:1rem;max-width:56ch;color:#5a4f3c;">Mouima prépare vos plats et vous les apporte, entre Savoie, Haute-Savoie et Isère — pour un dîner en petit comité comme pour une grande réception.</p>
+  <div class="zone-liste">
+    <div class="dept"><div class="chiffre">73</div><div class="nom">Savoie</div></div>
+    <div class="dept"><div class="chiffre">74</div><div class="nom">Haute-Savoie</div></div>
+    <div class="dept"><div class="chiffre">38</div><div class="nom">Isère</div></div>
+  </div>
+</section>
+
+<section class="section" id="occasions">
+  <div class="eyebrow">Pour quelles occasions</div>
+  <h2>Un menu pour chaque réception</h2>
+  <div class="occasions-liste">
+    <div class="occasion">
+      <h3>Anniversaires &amp; fêtes de famille</h3>
+      <p>Un buffet généreux, pensé pour être partagé.</p>
+    </div>
+    <div class="occasion">
+      <h3>Mariages &amp; fiançailles</h3>
+      <p>Pastillas et tajines en grande quantité, pour marquer les grands jours.</p>
+    </div>
+    <div class="occasion">
+      <h3>Réceptions d'entreprise</h3>
+      <p>Un buffet oriental soigné pour surprendre vos invités.</p>
+    </div>
+    <div class="occasion">
+      <h3>Repas entre amis</h3>
+      <p>Un tajine pour quatre ou pour douze, sans complication.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-bg" id="contact">
+  <div class="eyebrow">Réservation</div>
+  <h2>Parlons de votre événement</h2>
+  <p>Précisez la date, le nombre de convives et vos envies — Mouima vous propose un menu sur mesure.</p>
+  <div class="contact-liens">
+    <a href="tel:0617110282" class="contact-lien"><span class="ic">☎</span> 06 17 11 02 82</a>
+    <a href="https://instagram.com/lacuisinedemouima" target="_blank" class="contact-lien"><span class="ic">◎</span> @lacuisinedemouima</a>
+    <a href="mailto:lacuisinedemouima@gmail.com" class="contact-lien"><span class="ic">✉</span> lacuisinedemouima@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <p><strong>La Cuisine de Mouima</strong> — Traiteur marocain à domicile</p>
+  <p style="margin-top:.4rem;">Savoie · Haute-Savoie · Isère</p>
+</footer>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if (!toggle || !links) return;
+  function close() {
+    links.classList.remove('is-open');
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  toggle.addEventListener('click', function(){
+    var open = links.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', close);
+  });
+})();
+</script>
