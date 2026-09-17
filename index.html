@@ -342,7 +342,7 @@
   }
 
   /* ===== SPECIALITES / CARTE ===== */
-  .specialites-bg { background: var(--emeraude-deep); color: var(--ivoire); text-align: center; }
+  .specialites-bg { background: var(--emeraude-deep); color: var(--ivoire); text-align: center; position: relative; z-index: 4; }
   .specialites-bg h2 { color: var(--ivoire); }
   .specialites-bg .eyebrow { color: var(--or-doux); justify-content: center; }
   .specialites-bg .eyebrow::before { background: var(--or-doux); }
@@ -571,6 +571,18 @@
     border-top: 1px solid rgba(245,236,218,.08);
   }
   footer strong { color: var(--or-doux); font-family: var(--font-accent); font-style: italic; font-weight: 600; }
+
+  /* ===== SCROLL STACK =====
+     Chaque section reste "collée" en haut pendant que la suivante remonte
+     par-dessus et la recouvre. "La Carte" (le menu) en est exclue : trop
+     longue pour tenir figée à l'écran sans couper son contenu.        */
+  .hero            { position: sticky; top: 0; z-index: 1; }
+  .epigraphe       { position: sticky; top: 0; z-index: 2; background: var(--ivoire); }
+  .intro-texte     { position: sticky; top: 0; z-index: 3; background: var(--ivoire); }
+  .zone-bg         { position: sticky; top: 0; z-index: 5; }
+  #occasions       { position: sticky; top: 0; z-index: 6; background: var(--ivoire); }
+  .contact-bg      { position: sticky; top: 0; z-index: 7; }
+  footer           { position: sticky; top: 0; z-index: 8; }
 
   @media (max-width: 600px) {
     .section { padding: 4rem 6vw; }
