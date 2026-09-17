@@ -325,7 +325,10 @@
   .specialites-intro { max-width: 52ch; margin: 1rem auto 0; color: rgba(245,236,218,.65); font-size: .96rem; }
 
   .carte-panel {
-    background: var(--ivoire);
+    background:
+      repeating-conic-gradient(from 45deg, rgba(165,64,44,.035) 0deg 20deg, transparent 20deg 90deg),
+      var(--ivoire);
+    background-size: 46px 46px, auto;
     color: var(--encre);
     text-align: left;
     max-width: 940px;
@@ -333,12 +336,32 @@
     padding: clamp(2rem, 5vw, 3.4rem) clamp(1.4rem, 5vw, 3.2rem);
     border: 1px solid rgba(201,161,90,.5);
     box-shadow: 0 40px 100px rgba(0,0,0,.5);
+    position: relative;
   }
+  .carte-panel::before, .carte-panel::after,
+  .carte-panel i::before, .carte-panel i::after {
+    content: '';
+    position: absolute;
+    width: 26px; height: 26px;
+    border: 1.5px solid var(--or);
+  }
+  .carte-panel::before { top: 10px; left: 10px; border-width: 1.5px 0 0 1.5px; }
+  .carte-panel::after { top: 10px; right: 10px; border-width: 1.5px 1.5px 0 0; }
+  .carte-panel i::before { bottom: 10px; left: 10px; border-width: 0 0 1.5px 1.5px; position: absolute; }
+  .carte-panel i::after { bottom: 10px; right: 10px; border-width: 0 1.5px 1.5px 0; position: absolute; }
+
   .carte-entete {
     text-align: center;
     margin-bottom: 2.2rem;
+    position: relative;
+    z-index: 1;
   }
-  .carte-entete .filet-double { margin: 0 auto .9rem; }
+  .khatam {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto .9rem;
+    color: var(--paprika);
+  }
   .carte-entete h3 {
     font-family: var(--font-display);
     font-weight: 700;
@@ -375,14 +398,51 @@
     display: flex;
     align-items: baseline;
     gap: .5rem;
-    padding: .6rem 0;
+    padding: .6rem 0 .6rem .85rem;
+    margin-left: -.85rem;
     border-bottom: 1px dotted rgba(33,26,16,.16);
+    position: relative;
+    border-radius: 3px;
+    cursor: default;
+    transition: background .35s ease, padding-left .35s ease, margin-left .35s ease;
   }
+  .carte-ligne::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10%; bottom: 10%;
+    width: 2px;
+    background: var(--paprika);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform .3s ease;
+  }
+  .carte-ligne:hover {
+    background: linear-gradient(90deg, rgba(165,64,44,.07), rgba(165,64,44,0) 75%);
+    padding-left: 1.15rem;
+  }
+  .carte-ligne:hover::before { transform: scaleY(1); }
   .carte-ligne:last-child { border-bottom: none; }
-  .carte-nom { font-size: .93rem; font-weight: 500; }
+  .carte-nom { font-size: .93rem; font-weight: 500; transition: color .3s ease; }
+  .carte-ligne:hover .carte-nom { color: var(--emeraude); }
   .carte-nom small { display: block; margin-top: .1rem; font-size: .75rem; font-weight: 400; color: #7a6d54; }
-  .carte-leader { flex: 1; border-bottom: 1px dotted rgba(33,26,16,.28); transform: translateY(-5px); min-width: 12px; }
-  .carte-prix { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--paprika); font-size: .93rem; white-space: nowrap; }
+  .carte-leader {
+    flex: 1;
+    border-bottom: 1px dotted rgba(33,26,16,.28);
+    transform: translateY(-5px);
+    min-width: 12px;
+    transition: border-color .3s ease, opacity .3s ease;
+  }
+  .carte-ligne:hover .carte-leader { border-color: var(--or); opacity: .8; }
+  .carte-prix {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--paprika);
+    font-size: .93rem;
+    white-space: nowrap;
+    display: inline-block;
+    transition: transform .3s ease, color .3s ease;
+  }
+  .carte-ligne:hover .carte-prix { color: var(--emeraude); transform: scale(1.1); }
   .carte-supplement {
     margin-top: .7rem;
     font-size: .78rem;
@@ -492,6 +552,13 @@
     .section { padding: 4rem 6vw; }
     .carte-groupe-titre { flex-direction: column; align-items: flex-start; gap: .2rem; }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carte-ligne, .carte-ligne::before, .carte-nom, .carte-leader, .carte-prix {
+      transition: none;
+    }
+    .carte-ligne:hover .carte-prix { transform: none; }
+  }
 </style>
 
 <div class="grain"></div>
@@ -549,8 +616,21 @@
   <p class="specialites-intro">Chaque plat est préparé à la commande, en quantité adaptée à votre réception. Tarifs indicatifs, hors livraison.</p>
 
   <div class="carte-panel">
+    <i></i>
     <div class="carte-entete">
-      <div class="filet-double"><span></span><span></span></div>
+      <svg class="khatam" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="currentColor">
+          <path d="M50 4 L58 34 L50 50 L42 34 Z"/>
+          <path d="M50 96 L58 66 L50 50 L42 66 Z"/>
+          <path d="M4 50 L34 42 L50 50 L34 58 Z"/>
+          <path d="M96 50 L66 58 L50 50 L66 42 Z"/>
+          <path d="M18 18 L44 32 L50 50 L32 44 Z"/>
+          <path d="M82 82 L56 68 L50 50 L68 56 Z"/>
+          <path d="M82 18 L68 44 L50 50 L56 32 Z"/>
+          <path d="M18 82 L32 56 L50 50 L44 68 Z"/>
+        </g>
+        <circle cx="50" cy="50" r="7" fill="var(--or)"/>
+      </svg>
       <h3>La Carte</h3>
     </div>
 
